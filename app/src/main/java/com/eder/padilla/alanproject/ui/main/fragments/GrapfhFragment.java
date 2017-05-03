@@ -35,6 +35,7 @@ public class GrapfhFragment extends Fragment {
         ButterKnife.bind(this,view);
         Realm.init(getActivity());
         CalendarDay today = CalendarDay.today();
+        mMaterialCalendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
         mMaterialCalendarView.setDateSelected(today, true);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
                 new DataPoint(0, 1),
