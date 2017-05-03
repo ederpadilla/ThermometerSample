@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/img_calm"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:padding="10dp"
+            app:srcCompat="@drawable/ic_thermometer"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:id="@+id/tv_last"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Útima temperatura recibida"
+            android:textColor="@color/colorAccent"
+            android:layout_centerInParent="true"
+            android:layout_alignParentTop="true"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_marginTop="70dp"/>
+        <TextView
+            android:id="@+id/tv_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_last"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="50dp"
+            android:text="40ºC"
+            android:textSize="120sp"
+            android:textColor="@color/colorAccent"/>
+
+        <ImageView
+            android:id="@+id/img_alarm"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_fire_alarm"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

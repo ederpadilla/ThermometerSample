@@ -1,15 +1,12 @@
 package com.eder.padilla.alanproject.ui.main.fragments;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.ContentLoadingProgressBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.eder.padilla.alanproject.R;
 
@@ -22,6 +19,15 @@ import io.realm.Realm;
  */
 
 public class TemperatureFragment extends Fragment {
+
+    @BindView(R.id.img_calm)
+    ImageView mImageCalm;
+
+    @BindView(R.id.tv_temperature)
+    TextView mTvTemperature;
+
+    @BindView(R.id.img_alarm)
+    ImageView mImageAlarm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

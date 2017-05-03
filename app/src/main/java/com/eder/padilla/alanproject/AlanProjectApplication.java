@@ -1,7 +1,7 @@
 package com.eder.padilla.alanproject;
 
 import android.app.Application;
-import android.content.Context;
+import android.support.v7.app.AppCompatDelegate;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -19,5 +19,6 @@ public class AlanProjectApplication extends Application {
                 deleteRealmIfMigrationNeeded().
                 build();
         Realm.setDefaultConfiguration(config);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 }
