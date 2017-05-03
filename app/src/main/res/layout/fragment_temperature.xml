@@ -45,8 +45,7 @@
             android:layout_below="@id/tv_last"
             android:layout_centerInParent="true"
             android:layout_marginTop="50dp"
-            android:text="40ºC"
-            android:textSize="120sp"
+            android:textSize="100sp"
             android:textColor="@color/colorAccent"/>
         <TextView
             android:id="@+id/tv_date"
@@ -54,7 +53,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_temperature"
             android:layout_centerInParent="true"
-            android:text="3 Abril 2017"
             android:textSize="30sp"
             android:textColor="@color/colorAccent"/>
         <TextView
@@ -63,7 +61,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_date"
             android:layout_centerInParent="true"
-            android:text="00:00 hrs"
             android:textSize="30sp"
             android:textColor="@color/colorAccent"/>
 
@@ -72,7 +69,7 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             app:srcCompat="@drawable/ic_alarm"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"/>
 

@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 25
@@ -19,6 +20,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -34,6 +39,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'com.prolificinteractive:material-calendarview:1.4.3'
     compile "cloud.artik:artikcloud-java:2.0.7"
+    compile 'com.afollestad.material-dialogs:commons:0.9.4.4'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     testCompile 'junit:junit:4.12'
 }

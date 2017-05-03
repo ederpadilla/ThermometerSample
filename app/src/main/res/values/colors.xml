@@ -7,4 +7,6 @@
     <color name="colorone">#1f2246</color>
     <color name="colortwo">#3b4083</color>
     <color name="colorthree">#4c5097</color>
+
+    <color name="color_text_error">#FF0000</color>
 </resources>

@@ -11,15 +11,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.eder.padilla.alanproject.R;
 import com.eder.padilla.alanproject.adapter.ViewPagerAdapter;
+import com.eder.padilla.alanproject.ui.main.fragments.TemperatureFragment;
 import com.eder.padilla.alanproject.util.ArtikCloudSession;
 import com.eder.padilla.alanproject.util.Constants;
+import com.eder.padilla.alanproject.util.DialogManager;
 import com.eder.padilla.alanproject.util.Util;
 import com.rd.PageIndicatorView;
 import com.rd.animation.AnimationType;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindColor;
@@ -47,15 +55,24 @@ public class Main2Activity extends AppCompatActivity implements ViewPager.OnPage
     @BindColor(R.color.colorthree)
     int colorthree;
 
+    public String mDate="";
+
+    public String mHour="";
+
+    public String mTemperature="";
+
     Integer[] colors = null;
 
     ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+
+    public MaterialDialog materialDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         ButterKnife.bind(this);
+        materialDialog = DialogManager.showProgressDialog(Main2Activity.this);
         initViewPager();
     }
 
@@ -67,13 +84,9 @@ public class Main2Activity extends AppCompatActivity implements ViewPager.OnPage
         viewPager.addOnPageChangeListener(this);
         viewPager.addOnPageChangeListener(new CustomOnPageChangeListener());
         setUpColors();
-        setUpArticCloud();
     }
 
-    private void setUpArticCloud() {
-        ArtikCloudSession.getInstance().setContext(this);
-        Util.log("Devide id y device name "+ArtikCloudSession.getInstance().getDeviceID()+" Device name "+ArtikCloudSession.getInstance().getDeviceName());
-    }
+
 
     @Override
     public void onBackPressed() {
@@ -143,51 +156,10 @@ public class Main2Activity extends AppCompatActivity implements ViewPager.OnPage
     @Override
     protected void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(mWSUpdateReceiver,
-                makeWebsocketUpdateIntentFilter());
-        Util.log("Connecting to /live");
-        ArtikCloudSession.getInstance().connectFirehoseWS();//non blocking
-    }
-    private final BroadcastReceiver mWSUpdateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-            if (ArtikCloudSession.WEBSOCKET_LIVE_ONOPEN.equals(action)) {
-                Util.log("WebSocket /live connected");
-            } else if (ArtikCloudSession.WEBSOCKET_LIVE_ONMSG.equals(action)) {
-                String status = intent.getStringExtra(ArtikCloudSession.DEVICE_DATA);
-                String updateTime = intent.getStringExtra(ArtikCloudSession.TIMESTEP);
-                displayDeviceStatus(status, updateTime);
-            } else if (ArtikCloudSession.WEBSOCKET_LIVE_ONCLOSE.equals(action) ||
-                    ArtikCloudSession.WEBSOCKET_LIVE_ONERROR.equals(action)) {
-                displayLiveStatus(intent.getStringExtra("error"));
-            }
-        }
-    };
-
-    private void displayLiveStatus(String status) {
-        Util.log("status "+status);
+      // LocalBroadcastManager.getInstance(this).registerReceiver(mWSUpdateReceiver,
+      //         makeWebsocketUpdateIntentFilter());
+      // Util.log("Connecting to /live");
+      // ArtikCloudSession.getInstance().connectFirehoseWS();//non blocking
     }
 
-    private void displayDeviceStatus(String status, String updateTimems) {
-        Util.log(status);
-        long time_ms = Long.parseLong(updateTimems);
-        Util.log(DateFormat.getDateTimeInstance().format(new Date(time_ms)));
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mWSUpdateReceiver);
-        ArtikCloudSession.getInstance().disconnectFirehoseWS(); //non blocking
-    }
-
-
-    private static IntentFilter makeWebsocketUpdateIntentFilter() {
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(ArtikCloudSession.WEBSOCKET_LIVE_ONOPEN);
-        intentFilter.addAction(ArtikCloudSession.WEBSOCKET_LIVE_ONMSG);
-        intentFilter.addAction(ArtikCloudSession.WEBSOCKET_LIVE_ONCLOSE);
-        intentFilter.addAction(ArtikCloudSession.WEBSOCKET_LIVE_ONERROR);
-        return intentFilter;
-    }
 }
