@@ -24,14 +24,12 @@ public class SendService  extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-
         return null;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("Entra a OnStartComand","hola mundo desde onstart comand");
-
         return super.onStartCommand(intent, flags, startId);
     }
 

@@ -14,19 +14,30 @@
             android:padding="10dp"
             app:srcCompat="@drawable/ic_thermometer"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_centerInParent="true"/>
 
         <TextView
             android:id="@+id/tv_last"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Útima temperatura recibida"
+            android:text="Útima temperatura"
             android:textColor="@color/colorAccent"
             android:layout_centerInParent="true"
             android:layout_alignParentTop="true"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:layout_marginTop="70dp"/>
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/tv_last_second_part"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_last"
+            android:text="recibida"
+            android:textColor="@color/colorAccent"
+            android:layout_centerInParent="true"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
         <TextView
             android:id="@+id/tv_temperature"
             android:layout_width="wrap_content"
@@ -37,13 +48,31 @@
             android:text="40ºC"
             android:textSize="120sp"
             android:textColor="@color/colorAccent"/>
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_temperature"
+            android:layout_centerInParent="true"
+            android:text="3 Abril 2017"
+            android:textSize="30sp"
+            android:textColor="@color/colorAccent"/>
+        <TextView
+            android:id="@+id/tv_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_date"
+            android:layout_centerInParent="true"
+            android:text="00:00 hrs"
+            android:textSize="30sp"
+            android:textColor="@color/colorAccent"/>
 
         <ImageView
             android:id="@+id/img_alarm"
             android:layout_width="200dp"
             android:layout_height="200dp"
+            app:srcCompat="@drawable/ic_alarm"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_fire_alarm"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"/>
 

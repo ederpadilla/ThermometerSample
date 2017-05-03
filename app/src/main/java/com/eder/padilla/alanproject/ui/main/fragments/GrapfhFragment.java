@@ -10,6 +10,7 @@ import com.eder.padilla.alanproject.R;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import butterknife.BindView;
@@ -33,6 +34,8 @@ public class GrapfhFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_graph,container,false);
         ButterKnife.bind(this,view);
         Realm.init(getActivity());
+        CalendarDay today = CalendarDay.today();
+        mMaterialCalendarView.setDateSelected(today, true);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
                 new DataPoint(0, 1),
                 new DataPoint(1, 5),

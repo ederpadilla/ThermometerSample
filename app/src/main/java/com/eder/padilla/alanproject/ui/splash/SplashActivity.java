@@ -31,7 +31,7 @@ public class SplashActivity extends AwesomeSplash {
         configSplash.setAnimLogoSplashDuration(1500); //int ms
         configSplash.setAnimLogoSplashTechnique(Techniques.FadeIn); //choose one form Techniques (ref: https://github.com/daimajia/AndroidViewAnimations)
 
-        configSplash.setTitleSplash("");
+        configSplash.setTitleSplash("Banco de sangre");
 
 
         /***Customize Title

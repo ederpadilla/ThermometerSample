@@ -32,7 +32,7 @@ public class ConectionStateFragment extends Fragment{
         View view= inflater.inflate(R.layout.fragment_conection_state,container,false);
         ButterKnife.bind(this,view);
         Realm.init(getActivity());
-            //mImageState.setImageDrawable(mNoInternetAccess);
+        mImageState.setImageDrawable(mNoInternetAccess);
         return view;
     }
 
