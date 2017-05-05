@@ -1,5 +1,8 @@
 package com.eder.padilla.alanproject.ui.main.fragments;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,8 +17,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eder.padilla.alanproject.R;
+import com.eder.padilla.alanproject.model.Registro;
 import com.eder.padilla.alanproject.ui.main.Main2Activity;
 import com.eder.padilla.alanproject.util.ArtikCloudSession;
+import com.eder.padilla.alanproject.util.SendService;
 import com.eder.padilla.alanproject.util.Util;
 
 import org.json.JSONException;
@@ -24,6 +29,7 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.StringJoiner;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,6 +62,10 @@ public class TemperatureFragment extends Fragment {
 
     public Double mTemperature=0.0;
 
+    public double counter=0;
+
+    String mTempLevel;
+
 
 
     @Override
@@ -63,10 +73,21 @@ public class TemperatureFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_temperature,container,false);
         ButterKnife.bind(this,view);
         Realm.init(getActivity());
-        Util.log("el valor de mTemp es "+mTemperature);
+        Realm realm = Realm.getDefaultInstance();
+        Registro registro = realm.where(Registro.class).findFirst();
+        if (registro==null){
+        counter=0;
         if (mTemperature<1){
         }else{
-            mTvTemperature.setText(String.valueOf(mTemperature).substring(0,4));
+            if (String.valueOf(mTemperature).length()<3){
+                mTvTemperature.setText(String.valueOf(mTemperature).substring(0,2)+"ºC");
+            }else if (String.valueOf(mTemperature).length()<4){
+                mTvTemperature.setText(String.valueOf(mTemperature).substring(0,3)+"ºC");
+            }else if (String.valueOf(mTemperature).length()<5){
+                mTvTemperature.setText(String.valueOf(mTemperature).substring(0,4)+"ºC");
+            }else{
+                mTvTemperature.setText(String.valueOf(mTemperature).substring(0,4)+"ºC");
+            }
             if (mTemperature>=15){
                 mImageCalm.setVisibility(View.INVISIBLE);
                 mImageAlarm.setVisibility(View.VISIBLE);
@@ -77,6 +98,27 @@ public class TemperatureFragment extends Fragment {
         }
         mTvdate.setText(mDate);
         mTvHour.setText(mHour+" hrs");
+        }else{
+            double tempinrealm;
+            Util.log("Se ecnontro "+registro.toString());
+            mTvTemperature.setText(registro.getTemperature());
+            mTvdate.setText(registro.getDate());
+            mTvHour.setText(registro.getHour());
+            if (registro.getTemperature().length()<3){
+                tempinrealm = Double.parseDouble(registro.getTemperature().substring(0,2));
+            }else if(registro.getTemperature().length()<4){
+                tempinrealm = Double.parseDouble(registro.getTemperature().substring(0,3));
+            }else{
+                tempinrealm = Double.parseDouble(registro.getTemperature().substring(0,3));
+            }
+            if (tempinrealm>=15){
+                mImageCalm.setVisibility(View.INVISIBLE);
+                mImageAlarm.setVisibility(View.VISIBLE);
+            }else{
+                mImageCalm.setVisibility(View.VISIBLE);
+                mImageAlarm.setVisibility(View.INVISIBLE);
+            }
+        }
         setUpArticCloud();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mWSUpdateReceiver,
                 makeWebsocketUpdateIntentFilter());
@@ -86,7 +128,6 @@ public class TemperatureFragment extends Fragment {
     }
     private void setUpArticCloud() {
         ArtikCloudSession.getInstance().setContext(getActivity());
-        Util.log("Devide id y device name "+ArtikCloudSession.getInstance().getDeviceID()+" Device name "+ArtikCloudSession.getInstance().getDeviceName());
     }
     public static TemperatureFragment newInstance() {
          TemperatureFragment temperatureFragment = new TemperatureFragment();
@@ -114,18 +155,37 @@ public class TemperatureFragment extends Fragment {
     }
 
     private void displayDeviceStatus(String status, String updateTimems) {
-        Util.log("Aqui solo imprime el status "+status);
+        Util.log("Aqui solo imprime el status del fragment"+status);
         try {
             JSONObject jsonObj = new JSONObject(status);
             mTemperature = (Double) jsonObj.get("temp");
-            mTvTemperature.setText(String.valueOf(mTemperature).substring(0,4)+"ºC");
-            if (mTemperature>=15){
-                mImageCalm.setVisibility(View.INVISIBLE);
-                mImageAlarm.setVisibility(View.VISIBLE);
+                if (String.valueOf(mTemperature).length()<3){
+                    mTvTemperature.setText(String.valueOf(mTemperature).substring(0,2)+"ºC");
+                    mTempLevel=String.valueOf(mTemperature).substring(0,2)+"ºC";
+                }else if (String.valueOf(mTemperature).length()<4){
+                    mTvTemperature.setText(String.valueOf(mTemperature).substring(0,3)+"ºC");
+                    mTempLevel=String.valueOf(mTemperature).substring(0,3)+"ºC";
+                }else if (String.valueOf(mTemperature).length()<5){
+                    mTvTemperature.setText(String.valueOf(mTemperature).substring(0,4)+"ºC");
+                    mTempLevel=String.valueOf(mTemperature).substring(0,4)+"ºC";
+                }else{
+                    mTvTemperature.setText(String.valueOf(mTemperature).substring(0,4)+"ºC");
+                    mTempLevel=String.valueOf(mTemperature).substring(0,4)+"ºC";
+                }
+            if (counter!=mTemperature) {
+                counter = mTemperature;
+                if (mTemperature >= 15) {
+                    Util.log("El contador es " + counter);
+                    sendNotification();
+                    mImageCalm.setVisibility(View.INVISIBLE);
+                    mImageAlarm.setVisibility(View.VISIBLE);
+                } else {
+                    mImageCalm.setVisibility(View.VISIBLE);
+                    mImageAlarm.setVisibility(View.INVISIBLE);
+                }
             }else{
-                mImageCalm.setVisibility(View.VISIBLE);
-                mImageAlarm.setVisibility(View.INVISIBLE);
-            }
+
+         }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -135,9 +195,24 @@ public class TemperatureFragment extends Fragment {
         mHour = calendar.get(Calendar.HOUR_OF_DAY)+" : "+calendar.get(Calendar.MINUTE);
         mTvdate.setText(mDate);
         mTvHour.setText(mHour+" hrs");
-        ((Main2Activity)getActivity()).materialDialog.dismiss();
+        //((Main2Activity)getActivity()).materialDialog.dismiss();
         long time_ms = Long.parseLong(updateTimems);
         Util.log(DateFormat.getDateTimeInstance().format(new Date(time_ms)));
+    }
+
+    private void sendNotification() {
+        NotificationManager nm = (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification.Builder builder = new Notification.Builder(getActivity());
+        Intent notificationIntent = new Intent(getActivity(), Main2Activity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(), 0,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
+        builder.setSmallIcon(R.mipmap.firewall);
+        builder.setContentText(getString(R.string.high_temperature_levels));
+        builder.setContentTitle(getString(R.string.atention)+" "+mTemperature+"ºC");
+        builder.setAutoCancel(true);
+        builder.setDefaults(Notification.DEFAULT_ALL);
+        Notification notification = builder.build();
+        nm.notify((int)System.currentTimeMillis(),notification);
     }
 
 
@@ -185,4 +260,73 @@ public class TemperatureFragment extends Fragment {
         return "";
     }
 
+    @Override
+    public void onDestroyView() {
+        Util.log("Entra a on destroyu view");
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mWSUpdateReceiver);
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onPause() {
+        Util.log("Entra a on pause view");
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mWSUpdateReceiver);
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        Util.log("Entra al onresume");
+        Realm realm = Realm.getDefaultInstance();
+        Registro registro = realm.where(Registro.class).findFirst();
+        if (registro==null){
+            if (mTemperature<1){
+            }else{
+                if (String.valueOf(mTemperature).length()<3){
+                    mTvTemperature.setText(String.valueOf(mTemperature).substring(0,2)+"ºC");
+                }else if (String.valueOf(mTemperature).length()<4){
+                    mTvTemperature.setText(String.valueOf(mTemperature).substring(0,3)+"ºC");
+                }else if (String.valueOf(mTemperature).length()<5){
+                    mTvTemperature.setText(String.valueOf(mTemperature).substring(0,4)+"ºC");
+                }else{
+                    mTvTemperature.setText(String.valueOf(mTemperature).substring(0,4)+"ºC");
+                }
+                if (mTemperature>=15){
+                    mImageCalm.setVisibility(View.INVISIBLE);
+                    mImageAlarm.setVisibility(View.VISIBLE);
+                }else{
+                    mImageCalm.setVisibility(View.VISIBLE);
+                    mImageAlarm.setVisibility(View.INVISIBLE);
+                }
+            }
+            mTvdate.setText(mDate);
+            mTvHour.setText(mHour+" hrs");
+        }else{
+            double tempinrealm;
+            Util.log("Se ecnontro "+registro.toString());
+            mTvTemperature.setText(registro.getTemperature());
+            mTvdate.setText(registro.getDate());
+            mTvHour.setText(registro.getHour());
+            if (registro.getTemperature().length()<3){
+                tempinrealm = Double.parseDouble(registro.getTemperature().substring(0,2));
+            }else if(registro.getTemperature().length()<4){
+                tempinrealm = Double.parseDouble(registro.getTemperature().substring(0,3));
+            }else{
+                tempinrealm = Double.parseDouble(registro.getTemperature().substring(0,3));
+            }
+            if (tempinrealm>=15){
+                mImageCalm.setVisibility(View.INVISIBLE);
+                mImageAlarm.setVisibility(View.VISIBLE);
+            }else{
+                mImageCalm.setVisibility(View.VISIBLE);
+                mImageAlarm.setVisibility(View.INVISIBLE);
+            }
+        }
+        setUpArticCloud();
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mWSUpdateReceiver,
+                makeWebsocketUpdateIntentFilter());
+        Util.log("Connecting to /live");
+        ArtikCloudSession.getInstance().connectFirehoseWS();//non blocking
+        super.onResume();
+    }
 }

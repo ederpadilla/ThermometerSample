@@ -20,7 +20,7 @@ public class SplashActivity extends AwesomeSplash {
 
         //Customize Circular Reveal
         configSplash.setBackgroundColor(R.color.colorPrimary); //any color you want form colors.xml
-        configSplash.setAnimCircularRevealDuration(2300); //int ms
+        configSplash.setAnimCircularRevealDuration(1500); //int ms
         configSplash.setRevealFlagX(Flags.REVEAL_RIGHT);  //or Flags.REVEAL_LEFT
         configSplash.setRevealFlagY(Flags.REVEAL_BOTTOM); //or Flags.REVEAL_TOP
 
@@ -28,10 +28,11 @@ public class SplashActivity extends AwesomeSplash {
 
         //Customize Logo
         configSplash.setLogoSplash(R.drawable.ic_firewall); //or any other drawable
-        configSplash.setAnimLogoSplashDuration(1500); //int ms
+        configSplash.setAnimLogoSplashDuration(500); //int ms
         configSplash.setAnimLogoSplashTechnique(Techniques.FadeIn); //choose one form Techniques (ref: https://github.com/daimajia/AndroidViewAnimations)
 
         configSplash.setTitleSplash("Banco de sangre");
+        configSplash.setAnimTitleDuration(300);
 
 
         /***Customize Title

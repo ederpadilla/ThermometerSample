@@ -1,6 +1,7 @@
 package com.eder.padilla.alanproject.ui.main;
 
 import android.animation.ArgbEvaluator;
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import com.eder.padilla.alanproject.ui.main.fragments.TemperatureFragment;
 import com.eder.padilla.alanproject.util.ArtikCloudSession;
 import com.eder.padilla.alanproject.util.Constants;
 import com.eder.padilla.alanproject.util.DialogManager;
+import com.eder.padilla.alanproject.util.SendService;
 import com.eder.padilla.alanproject.util.Util;
 import com.rd.PageIndicatorView;
 import com.rd.animation.AnimationType;
@@ -72,7 +74,10 @@ public class Main2Activity extends AppCompatActivity implements ViewPager.OnPage
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         ButterKnife.bind(this);
-        materialDialog = DialogManager.showProgressDialog(Main2Activity.this);
+        Intent intent = new Intent();
+        intent.setClass(Main2Activity.this, SendService.class);
+        stopService(intent);
+       // materialDialog = DialogManager.showProgressDialog(Main2Activity.this);
         initViewPager();
     }
 
@@ -162,4 +167,37 @@ public class Main2Activity extends AppCompatActivity implements ViewPager.OnPage
       // ArtikCloudSession.getInstance().connectFirehoseWS();//non blocking
     }
 
+    @Override
+    protected void onDestroy() {
+        Util.log("Entra a ondestry!!!");
+        if (!isMyServiceRunning(getApplicationContext(), SendService.class)) {
+            Intent serviceIntent = new Intent(getApplicationContext(), SendService.class);
+            getApplicationContext().startService(serviceIntent);
+        } else {
+            Log.i("MyLog","Service is alredy Running. ");
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        if (!isMyServiceRunning(getApplicationContext(), SendService.class)) {
+            Intent serviceIntent = new Intent(getApplicationContext(), SendService.class);
+            getApplicationContext().startService(serviceIntent);
+        } else {
+            Log.i("MyLog","Service is alredy Running. ");
+        }
+        Util.log("Entra a pause!!!");
+        super.onPause();
+    }
+
+    private boolean isMyServiceRunning(Context context, Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
