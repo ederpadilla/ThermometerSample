@@ -21,6 +21,7 @@ import com.eder.padilla.alanproject.R;
 import com.eder.padilla.alanproject.model.Registro;
 import com.eder.padilla.alanproject.ui.main.Main2Activity;
 import com.eder.padilla.alanproject.util.ArtikCloudSession;
+import com.eder.padilla.alanproject.util.Constants;
 import com.eder.padilla.alanproject.util.SendService;
 import com.eder.padilla.alanproject.util.Util;
 
@@ -65,6 +66,7 @@ public class TemperatureFragment extends Fragment {
 
     public double counter=0;
 
+
     String mTempLevel;
 
 
@@ -89,7 +91,7 @@ public class TemperatureFragment extends Fragment {
             }else{
                 mTvTemperature.setText(String.valueOf(mTemperature).substring(0,4)+"ºC");
             }
-            if (mTemperature>=15){
+            if (mTemperature>= Constants.MAXIMUM_TEMPERATURE){
                 mImageCalm.setVisibility(View.INVISIBLE);
                 mImageAlarm.setVisibility(View.VISIBLE);
             }else{
@@ -112,7 +114,7 @@ public class TemperatureFragment extends Fragment {
             }else{
                 tempinrealm = Double.parseDouble(registro.getTemperature().substring(0,3));
             }
-            if (tempinrealm>=15){
+            if (tempinrealm>=Constants.MAXIMUM_TEMPERATURE){
                 mImageCalm.setVisibility(View.INVISIBLE);
                 mImageAlarm.setVisibility(View.VISIBLE);
             }else{
@@ -191,7 +193,7 @@ public class TemperatureFragment extends Fragment {
                 }
             if (counter!=mTemperature) {
                 counter = mTemperature;
-                if (mTemperature >= 15) {
+                if (mTemperature >= Constants.MAXIMUM_TEMPERATURE) {
                     Util.log("El contador es " + counter);
                     sendNotification();
                     mImageCalm.setVisibility(View.INVISIBLE);
@@ -308,7 +310,7 @@ public class TemperatureFragment extends Fragment {
                 }else{
                     mTvTemperature.setText(String.valueOf(mTemperature).substring(0,4)+"ºC");
                 }
-                if (mTemperature>=15){
+                if (mTemperature>=Constants.MAXIMUM_TEMPERATURE){
                     mImageCalm.setVisibility(View.INVISIBLE);
                     mImageAlarm.setVisibility(View.VISIBLE);
                 }else{
@@ -331,7 +333,7 @@ public class TemperatureFragment extends Fragment {
             }else{
                 tempinrealm = Double.parseDouble(registro.getTemperature().substring(0,3));
             }
-            if (tempinrealm>=15){
+            if (tempinrealm>=Constants.MAXIMUM_TEMPERATURE){
                 mImageCalm.setVisibility(View.INVISIBLE);
                 mImageAlarm.setVisibility(View.VISIBLE);
             }else{

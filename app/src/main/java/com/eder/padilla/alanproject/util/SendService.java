@@ -151,7 +151,7 @@ public class SendService  extends Service {
         Util.log("el contador es "+counter+" el valor de temperature " +mTemperature);
         if (counter!=mTemperature){
             counter=mTemperature;
-            if (counter>=15){
+            if (counter>=Constants.MAXIMUM_TEMPERATURE){
                 if (String.valueOf(mTemperature).length()<3){
                     mTempLevel=String.valueOf(mTemperature).substring(0,2)+"ºC";
                 }else if (String.valueOf(mTemperature).length()<4){
