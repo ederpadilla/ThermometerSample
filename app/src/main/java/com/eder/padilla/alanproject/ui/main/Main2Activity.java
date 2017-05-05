@@ -77,7 +77,7 @@ public class Main2Activity extends AppCompatActivity implements ViewPager.OnPage
         Intent intent = new Intent();
         intent.setClass(Main2Activity.this, SendService.class);
         stopService(intent);
-       // materialDialog = DialogManager.showProgressDialog(Main2Activity.this);
+        materialDialog = DialogManager.showProgressDialog(Main2Activity.this);
         initViewPager();
     }
 

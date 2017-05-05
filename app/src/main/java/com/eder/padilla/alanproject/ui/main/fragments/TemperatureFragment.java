@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.eder.padilla.alanproject.R;
 import com.eder.padilla.alanproject.model.Registro;
 import com.eder.padilla.alanproject.ui.main.Main2Activity;
@@ -118,6 +119,7 @@ public class TemperatureFragment extends Fragment {
                 mImageCalm.setVisibility(View.VISIBLE);
                 mImageAlarm.setVisibility(View.INVISIBLE);
             }
+            ((Main2Activity)getActivity()).materialDialog.dismiss();
         }
         setUpArticCloud();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mWSUpdateReceiver,
@@ -146,9 +148,24 @@ public class TemperatureFragment extends Fragment {
             } else if (ArtikCloudSession.WEBSOCKET_LIVE_ONCLOSE.equals(action) ||
                     ArtikCloudSession.WEBSOCKET_LIVE_ONERROR.equals(action)) {
                 displayLiveStatus(intent.getStringExtra("error"));
+                ((Main2Activity)getActivity()).materialDialog.dismiss();
+                new MaterialDialog.Builder(getActivity())
+                        .title("Upps..")
+                        .content("No hay respuesta del servidor, intente mas tarde.")
+                        .positiveText("Aceptar")
+                        .cancelable(false)
+                        .onPositive((dialog, which) -> wrongComunication(dialog))
+                        .positiveColorRes(R.color.colorPrimaryDark)
+                        .titleColorRes(R.color.colorPrimary)
+                        .show();
             }
         }
     };
+
+    private void wrongComunication(MaterialDialog dialog) {
+        dialog.dismiss();
+        getActivity().finish();
+    }
 
     private void displayLiveStatus(String status) {
         Util.log("status "+status);
@@ -195,7 +212,7 @@ public class TemperatureFragment extends Fragment {
         mHour = calendar.get(Calendar.HOUR_OF_DAY)+" : "+calendar.get(Calendar.MINUTE);
         mTvdate.setText(mDate);
         mTvHour.setText(mHour+" hrs");
-        //((Main2Activity)getActivity()).materialDialog.dismiss();
+        ((Main2Activity)getActivity()).materialDialog.dismiss();
         long time_ms = Long.parseLong(updateTimems);
         Util.log(DateFormat.getDateTimeInstance().format(new Date(time_ms)));
     }
