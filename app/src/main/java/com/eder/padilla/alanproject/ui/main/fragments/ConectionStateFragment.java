@@ -51,11 +51,24 @@ public class ConectionStateFragment extends Fragment{
 
     @Override
     public void onResume() {
+        Util.log("resume");
         if (Util.isOnline(getActivity())){
             mImageState.setImageDrawable(mWifiAccess);
         }else{
             mImageState.setImageDrawable(mNoInternetAccess);
         }
         super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        Util.log("Pause");
+        super.onPause();
+    }
+
+    @Override
+    public void onDetach() {
+        Util.log("Detach");
+        super.onDetach();
     }
 }
