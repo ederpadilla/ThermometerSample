@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.eder.padilla.alanproject.R;
+import com.eder.padilla.alanproject.util.Util;
 
 import butterknife.BindDrawable;
 import butterknife.BindView;
@@ -27,12 +28,19 @@ public class ConectionStateFragment extends Fragment{
     @BindDrawable(R.drawable.ic_wifi_2)
     Drawable mNoInternetAccess;
 
+    @BindDrawable(R.drawable.ic_wifi_access)
+    Drawable mWifiAccess;
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_conection_state,container,false);
         ButterKnife.bind(this,view);
         Realm.init(getActivity());
-        mImageState.setImageDrawable(mNoInternetAccess);
+            if (Util.isOnline(getActivity())){
+                mImageState.setImageDrawable(mWifiAccess);
+            }else{
+                mImageState.setImageDrawable(mNoInternetAccess);
+            }
         return view;
     }
 
@@ -41,4 +49,13 @@ public class ConectionStateFragment extends Fragment{
         return conectionStateFragment;
     }
 
+    @Override
+    public void onResume() {
+        if (Util.isOnline(getActivity())){
+            mImageState.setImageDrawable(mWifiAccess);
+        }else{
+            mImageState.setImageDrawable(mNoInternetAccess);
+        }
+        super.onResume();
+    }
 }
