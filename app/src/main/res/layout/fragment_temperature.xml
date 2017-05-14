@@ -4,75 +4,77 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/img_calm"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:padding="10dp"
-            app:srcCompat="@drawable/ic_thermometer"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"/>
-
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <TextView
             android:id="@+id/tv_last"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Útima temperatura"
+            android:text="@string/last_connection"
             android:textColor="@color/colorAccent"
-            android:layout_centerInParent="true"
-            android:layout_alignParentTop="true"
-            android:textSize="28sp"
+            android:textSize="23sp"
+            android:layout_gravity="center"
             android:textStyle="bold"
             android:layout_marginTop="10dp"/>
         <TextView
             android:id="@+id/tv_last_second_part"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_last"
-            android:text="recibida"
+            android:layout_gravity="center"
+            android:text="@string/received"
             android:textColor="@color/colorAccent"
-            android:layout_centerInParent="true"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"/>
+            android:textSize="23sp"
+            android:textStyle="bold"/>
         <TextView
             android:id="@+id/tv_temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_last"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="50dp"
-            android:textSize="80sp"
+            android:layout_gravity="center"
+            android:textSize="50sp"
             android:textColor="@color/colorAccent"/>
         <TextView
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_temperature"
-            android:layout_centerInParent="true"
-            android:textSize="30sp"
+            android:layout_gravity="center"
+            android:textSize="20sp"
             android:textColor="@color/colorAccent"/>
         <TextView
             android:id="@+id/tv_hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_date"
-            android:layout_centerInParent="true"
-            android:textSize="30sp"
+            android:layout_gravity="center"
+            android:textSize="20sp"
             android:textColor="@color/colorAccent"/>
-
         <ImageView
             android:id="@+id/img_alarm"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             app:srcCompat="@drawable/ic_alarm"
-            android:visibility="invisible"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"/>
+            android:visibility="gone"
+            android:contentDescription="@string/alarm"
+            android:layout_gravity="center"/>
+        <ImageView
+            android:id="@+id/img_calm"
+            android:contentDescription="@string/tolerable"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:srcCompat="@drawable/ic_thermometer"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/next_fragment_temperature"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/access_button_ripple"
+            android:clickable="true"
+            android:gravity="center"
+            android:layout_gravity="bottom"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"
+            android:text="@string/next_fragment"
+            android:textColor="@color/colorAccent" />
 
-    </RelativeLayout>
-
+    </LinearLayout>
 </LinearLayout>

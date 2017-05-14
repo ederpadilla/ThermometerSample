@@ -10,12 +10,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v4.view.ViewPager
+        <com.eder.padilla.alanproject.util.NonSwipeableViewPager
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/viewpager">
 
-        </android.support.v4.view.ViewPager>
+        </com.eder.padilla.alanproject.util.NonSwipeableViewPager>
         <com.rd.PageIndicatorView
             android:id="@+id/pageIndicatorView"
             android:layout_width="wrap_content"

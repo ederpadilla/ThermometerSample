@@ -5,8 +5,8 @@ package com.eder.padilla.alanproject.util;
  */
 
 public class Constants {
-    public static final int ZERO = 0;
 
+    public static final int ZERO = 0;
 
     public static double MAXIMUM_TEMPERATURE=15;
 }

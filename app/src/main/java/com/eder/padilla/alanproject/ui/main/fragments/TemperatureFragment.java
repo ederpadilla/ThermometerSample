@@ -35,6 +35,7 @@ import java.util.StringJoiner;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 
 /**
@@ -69,7 +70,10 @@ public class TemperatureFragment extends Fragment {
 
     String mTempLevel;
 
-
+    @OnClick(R.id.next_fragment_temperature)
+    public void changeFragment(){
+        ((Main2Activity)getActivity()).viewPager.setCurrentItem(1);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -123,6 +127,7 @@ public class TemperatureFragment extends Fragment {
             }
             ((Main2Activity)getActivity()).materialDialog.dismiss();
         }
+
         setUpArticCloud();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mWSUpdateReceiver,
                 makeWebsocketUpdateIntentFilter());
@@ -151,22 +156,12 @@ public class TemperatureFragment extends Fragment {
                     ArtikCloudSession.WEBSOCKET_LIVE_ONERROR.equals(action)) {
                 displayLiveStatus(intent.getStringExtra("error"));
                 ((Main2Activity)getActivity()).materialDialog.dismiss();
-                new MaterialDialog.Builder(getActivity())
-                        .title("Upps..")
-                        .content("No hay respuesta del servidor, intente mas tarde.")
-                        .positiveText("Aceptar")
-                        .cancelable(false)
-                        .onPositive((dialog, which) -> wrongComunication(dialog))
-                        .positiveColorRes(R.color.colorPrimaryDark)
-                        .titleColorRes(R.color.colorPrimary)
-                        .show();
             }
         }
     };
 
     private void wrongComunication(MaterialDialog dialog) {
         dialog.dismiss();
-        getActivity().finish();
     }
 
     private void displayLiveStatus(String status) {

@@ -3,4 +3,14 @@
     <string name="accept">Aceptar</string>
     <string name="high_temperature_levels">Niveles de temperatura fuera de parametro</string>
     <string name="atention">Atención</string>
+    <string name="date">Fechas y graficas</string>
+    <string name="next_fragment">Siguiente</string>
+    <string name="last_connection">Útima temperatura</string>
+    <string name="received">recibida</string>
+    <string name="alarm">Imagen de alarma.</string>
+    <string name="tolerable">Temperatura tolerable.</string>
+    <string name="network_state">Estado de la conexión</string>
+    <string name="go_back">Regresar</string>
+    <string name="graph">Gráfica</string>
+    <string name="temperature">Temperatura</string>
 </resources>

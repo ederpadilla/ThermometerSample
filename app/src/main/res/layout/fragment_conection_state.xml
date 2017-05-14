@@ -8,18 +8,31 @@
         android:id="@+id/tv_last"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Estado de la conexión"
+        android:text="@string/network_state"
         android:layout_gravity="center"
         android:textColor="@color/colorAccent"
-        android:textSize="28sp"
+        android:textSize="23sp"
         android:textStyle="bold"
         android:layout_marginTop="10dp"/>
     <ImageView
+        android:contentDescription="@string/network_state"
         android:id="@+id/img_state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         app:srcCompat="@drawable/ic_wifi_access"
         android:layout_marginTop="150dp"
         android:layout_gravity="center"/>
+    <TextView
+        android:id="@+id/next_fragment_network"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/access_button_ripple"
+        android:clickable="true"
+        android:gravity="center"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="190dp"
+        android:text="@string/go_back"
+        android:textColor="@color/colorAccent" />
 
 </LinearLayout>

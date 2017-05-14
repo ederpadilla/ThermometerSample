@@ -24,7 +24,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return TemperatureFragment.newInstance();
             case 1:
-                return  GrapfhFragment.newInstance();
+                return GrapfhFragment.newInstance();
             case 2:
                 return  ConectionStateFragment.newInstance();
             default: return TemperatureFragment.newInstance();

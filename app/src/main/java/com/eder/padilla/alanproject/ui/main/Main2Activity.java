@@ -19,6 +19,7 @@ import com.eder.padilla.alanproject.ui.main.fragments.TemperatureFragment;
 import com.eder.padilla.alanproject.util.ArtikCloudSession;
 import com.eder.padilla.alanproject.util.Constants;
 import com.eder.padilla.alanproject.util.DialogManager;
+import com.eder.padilla.alanproject.util.NonSwipeableViewPager;
 import com.eder.padilla.alanproject.util.SendService;
 import com.eder.padilla.alanproject.util.Util;
 import com.rd.PageIndicatorView;
@@ -39,14 +40,12 @@ import butterknife.ButterKnife;
 public class Main2Activity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
 
     @BindView(R.id.viewpager)
-    ViewPager viewPager;
+    public NonSwipeableViewPager viewPager;
 
     @BindView(R.id.pageIndicatorView)
     PageIndicatorView pageIndicatorView;
 
     ViewPagerAdapter viewPagerAdapter;
-
-    int currentPositionViewer = Constants.ZERO;
 
     @BindColor(R.color.colorone)
     int colorone;
@@ -69,6 +68,8 @@ public class Main2Activity extends AppCompatActivity implements ViewPager.OnPage
 
     public MaterialDialog materialDialog;
 
+    int currentPositionViewer = Constants.ZERO;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,8 +78,19 @@ public class Main2Activity extends AppCompatActivity implements ViewPager.OnPage
         Intent intent = new Intent();
         intent.setClass(Main2Activity.this, SendService.class);
         stopService(intent);
-        materialDialog = DialogManager.showProgressDialog(Main2Activity.this);
-        initViewPager();
+            materialDialog = DialogManager.showProgressDialog(Main2Activity.this);
+            initViewPager();
+        if (Util.isOnline(getApplicationContext())){}else{
+            new MaterialDialog.Builder(Main2Activity.this)
+                    .title("Upps..")
+                    .content("No hay respuesta del servidor, intente mas tarde.")
+                    .positiveText("Aceptar")
+                    .cancelable(false)
+                    .onPositive((dialog, which) -> dialog.dismiss())
+                    .positiveColorRes(R.color.colorPrimaryDark)
+                    .titleColorRes(R.color.colorPrimary)
+                    .show();
+        }
     }
 
     private void initViewPager() {

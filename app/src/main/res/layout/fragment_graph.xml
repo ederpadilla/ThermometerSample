@@ -3,36 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:id="@+id/container">
     <TextView
         android:id="@+id/tv_last"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fechas y graficas"
+        android:text="@string/graph"
         android:layout_gravity="center"
         android:textColor="@color/colorAccent"
-        android:layout_centerInParent="true"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp"/>
-    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="60"
-        android:layout_marginTop="20dp"
-        app:mcv_arrowColor="@color/colorAccent"
-        app:mcv_dateTextAppearance="@style/CustomTextAppearance"
-        app:mcv_firstDayOfWeek="sunday"
-        app:mcv_headerTextAppearance="@style/CustomTextAppearance"
-        app:mcv_selectionColor="@color/colorPrimaryDark"
-        app:mcv_weekDayTextAppearance="@style/CustomTextAppearance" />
+        android:textSize="23sp"
+        android:textStyle="bold"/>
 
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="40"
+        android:layout_height="300dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
         android:id="@+id/graph"
-        android:layout_marginBottom="20dp"
         app:seriesType="line" />
+    <TextView
+        android:id="@+id/next_fragment_graph"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/access_button_ripple"
+        android:clickable="true"
+        android:gravity="center"
+        android:layout_gravity="bottom"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="70dp"
+        android:text="@string/next_fragment"
+        android:textColor="@color/colorAccent" />
 </LinearLayout>

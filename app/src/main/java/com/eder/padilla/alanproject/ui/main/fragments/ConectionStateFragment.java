@@ -7,13 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.eder.padilla.alanproject.R;
+import com.eder.padilla.alanproject.ui.main.Main2Activity;
 import com.eder.padilla.alanproject.util.Util;
 
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 
 /**
@@ -30,6 +33,14 @@ public class ConectionStateFragment extends Fragment{
 
     @BindDrawable(R.drawable.ic_wifi_access)
     Drawable mWifiAccess;
+
+    @BindView(R.id.next_fragment_network)
+    TextView mTvGoback;
+
+    @OnClick(R.id.next_fragment_network)
+    public void changeFragment(){
+        ((Main2Activity)getActivity()).viewPager.setCurrentItem(0);
+    }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
