@@ -59,7 +59,7 @@ public class TemperatureFragment extends Fragment {
     @BindView(R.id.tv_date)
     public TextView mTvdate;
 
-    public String mDate="";
+    public String mDate="12";
 
     public String mHour="";
 
@@ -95,7 +95,7 @@ public class TemperatureFragment extends Fragment {
             }else{
                 mTvTemperature.setText(String.valueOf(mTemperature).substring(0,4)+"ºC");
             }
-            if (mTemperature>= Constants.MAXIMUM_TEMPERATURE){
+            if (mTemperature >= Constants.MAXIMUM_TEMPERATURE || mTemperature<=Constants.MINIMUM_TEMPERATURE){
                 mImageCalm.setVisibility(View.INVISIBLE);
                 mImageAlarm.setVisibility(View.VISIBLE);
             }else{
@@ -118,7 +118,7 @@ public class TemperatureFragment extends Fragment {
             }else{
                 tempinrealm = Double.parseDouble(registro.getTemperature().substring(0,3));
             }
-            if (tempinrealm>=Constants.MAXIMUM_TEMPERATURE){
+            if (tempinrealm>=Constants.MAXIMUM_TEMPERATURE || mTemperature<=Constants.MINIMUM_TEMPERATURE){
                 mImageCalm.setVisibility(View.INVISIBLE);
                 mImageAlarm.setVisibility(View.VISIBLE);
             }else{
@@ -188,7 +188,7 @@ public class TemperatureFragment extends Fragment {
                 }
             if (counter!=mTemperature) {
                 counter = mTemperature;
-                if (mTemperature >= Constants.MAXIMUM_TEMPERATURE) {
+                if (mTemperature >= Constants.MAXIMUM_TEMPERATURE || mTemperature<=Constants.MINIMUM_TEMPERATURE) {
                     Util.log("El contador es " + counter);
                     sendNotification();
                     mImageCalm.setVisibility(View.INVISIBLE);
@@ -305,7 +305,7 @@ public class TemperatureFragment extends Fragment {
                 }else{
                     mTvTemperature.setText(String.valueOf(mTemperature).substring(0,4)+"ºC");
                 }
-                if (mTemperature>=Constants.MAXIMUM_TEMPERATURE){
+                if (mTemperature>=Constants.MAXIMUM_TEMPERATURE || mTemperature<=Constants.MINIMUM_TEMPERATURE){
                     mImageCalm.setVisibility(View.INVISIBLE);
                     mImageAlarm.setVisibility(View.VISIBLE);
                 }else{
@@ -328,7 +328,7 @@ public class TemperatureFragment extends Fragment {
             }else{
                 tempinrealm = Double.parseDouble(registro.getTemperature().substring(0,3));
             }
-            if (tempinrealm>=Constants.MAXIMUM_TEMPERATURE){
+            if (tempinrealm>=Constants.MAXIMUM_TEMPERATURE || mTemperature<=Constants.MINIMUM_TEMPERATURE){
                 mImageCalm.setVisibility(View.INVISIBLE);
                 mImageAlarm.setVisibility(View.VISIBLE);
             }else{

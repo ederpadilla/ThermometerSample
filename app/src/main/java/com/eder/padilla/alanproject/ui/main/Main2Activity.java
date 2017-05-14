@@ -2,11 +2,8 @@ package com.eder.padilla.alanproject.ui.main;
 
 import android.animation.ArgbEvaluator;
 import android.app.ActivityManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,8 +12,6 @@ import android.util.Log;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.eder.padilla.alanproject.R;
 import com.eder.padilla.alanproject.adapter.ViewPagerAdapter;
-import com.eder.padilla.alanproject.ui.main.fragments.TemperatureFragment;
-import com.eder.padilla.alanproject.util.ArtikCloudSession;
 import com.eder.padilla.alanproject.util.Constants;
 import com.eder.padilla.alanproject.util.DialogManager;
 import com.eder.padilla.alanproject.util.NonSwipeableViewPager;
@@ -24,14 +19,6 @@ import com.eder.padilla.alanproject.util.SendService;
 import com.eder.padilla.alanproject.util.Util;
 import com.rd.PageIndicatorView;
 import com.rd.animation.AnimationType;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 import butterknife.BindColor;
 import butterknife.BindView;
