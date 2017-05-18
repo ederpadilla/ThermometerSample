@@ -174,7 +174,6 @@ public class SendService  extends Service {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(registro);
         realm.commitTransaction();
-        Util.log("Se supone se crea "+registro.toString());
         long time_ms = Long.parseLong(updateTimems);
         Util.log(DateFormat.getDateTimeInstance().format(new Date(time_ms)));
     }

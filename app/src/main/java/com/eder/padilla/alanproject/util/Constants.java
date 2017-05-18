@@ -8,7 +8,7 @@ public class Constants {
 
     public static final int ZERO = 0;
 
-    public static double MAXIMUM_TEMPERATURE = 15;
+    public static double MAXIMUM_TEMPERATURE = 6;
 
     public static double MINIMUM_TEMPERATURE = 2;
 }

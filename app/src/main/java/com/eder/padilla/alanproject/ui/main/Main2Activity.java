@@ -4,6 +4,7 @@ import android.animation.ArgbEvaluator;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import com.eder.padilla.alanproject.util.DialogManager;
 import com.eder.padilla.alanproject.util.NonSwipeableViewPager;
 import com.eder.padilla.alanproject.util.SendService;
 import com.eder.padilla.alanproject.util.Util;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.rd.PageIndicatorView;
 import com.rd.animation.AnimationType;
 
@@ -55,6 +58,10 @@ public class Main2Activity extends AppCompatActivity implements ViewPager.OnPage
 
     public MaterialDialog materialDialog;
 
+    public static LineGraphSeries<DataPoint> series;
+
+    public static String mDateToday;
+
     int currentPositionViewer = Constants.ZERO;
 
     @Override
@@ -65,6 +72,7 @@ public class Main2Activity extends AppCompatActivity implements ViewPager.OnPage
         Intent intent = new Intent();
         intent.setClass(Main2Activity.this, SendService.class);
         stopService(intent);
+        initSeries();
             materialDialog = DialogManager.showProgressDialog(Main2Activity.this);
             initViewPager();
         if (Util.isOnline(getApplicationContext())){}else{
@@ -78,6 +86,19 @@ public class Main2Activity extends AppCompatActivity implements ViewPager.OnPage
                     .titleColorRes(R.color.colorPrimary)
                     .show();
         }
+    }
+
+    private void initSeries() {
+        series = new LineGraphSeries<>();
+        series.setTitle(getString(R.string.temperature));
+        series.setDrawBackground(true);
+        series.setColor(Color.argb(255, 114, 153, 251));
+        series.setBackgroundColor(Color.argb(80, 114, 153, 251));
+        series.setAnimated(true);
+        series.setDrawDataPoints(true);
+        series.setDataPointsRadius(20);
+        series.setThickness(10);
+        series.setDrawDataPoints(true);
     }
 
     private void initViewPager() {

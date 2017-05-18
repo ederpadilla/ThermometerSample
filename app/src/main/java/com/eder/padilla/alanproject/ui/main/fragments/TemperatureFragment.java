@@ -18,19 +18,23 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.eder.padilla.alanproject.R;
+import com.eder.padilla.alanproject.model.GraphDataPoint;
 import com.eder.padilla.alanproject.model.Registro;
 import com.eder.padilla.alanproject.ui.main.Main2Activity;
 import com.eder.padilla.alanproject.util.ArtikCloudSession;
 import com.eder.padilla.alanproject.util.Constants;
 import com.eder.padilla.alanproject.util.SendService;
 import com.eder.padilla.alanproject.util.Util;
+import com.jjoe64.graphview.series.DataPoint;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.StringJoiner;
 
 import butterknife.BindView;
@@ -59,13 +63,15 @@ public class TemperatureFragment extends Fragment {
     @BindView(R.id.tv_date)
     public TextView mTvdate;
 
-    public String mDate="12";
+    public static String mDate="12";
 
     public String mHour="";
 
     public Double mTemperature=0.0;
 
     public double counter=0;
+
+    List<Double> cordinates = new ArrayList<>();
 
 
     String mTempLevel;
@@ -173,6 +179,7 @@ public class TemperatureFragment extends Fragment {
         try {
             JSONObject jsonObj = new JSONObject(status);
             mTemperature = (Double) jsonObj.get("temp");
+            cordinates.clear();
                 if (String.valueOf(mTemperature).length()<3){
                     mTvTemperature.setText(String.valueOf(mTemperature).substring(0,2)+"ºC");
                     mTempLevel=String.valueOf(mTemperature).substring(0,2)+"ºC";
@@ -197,21 +204,53 @@ public class TemperatureFragment extends Fragment {
                     mImageCalm.setVisibility(View.VISIBLE);
                     mImageAlarm.setVisibility(View.INVISIBLE);
                 }
+                Date date = new Date(Long.parseLong(updateTimems));
+                Calendar calendar = toCalendar(date);
+                mDate = calendar.get(Calendar.DAY_OF_MONTH)+" "+getMonthInString(calendar.get(Calendar.MONTH))+" "+calendar.get(Calendar.YEAR);
+                mHour = calendar.get(Calendar.HOUR_OF_DAY)+" : "+calendar.get(Calendar.MINUTE);
+                mTvdate.setText(mDate);
+                Main2Activity.series.setTitle(mDate);
+                String hourWithOutSpaces = mHour.trim().replace(" ","");
+                String xAxisSeries = hourWithOutSpaces.replace(":",".");
+                String dataPointString = xAxisSeries+","+mTemperature;
+                Realm realm = Realm.getDefaultInstance();
+                GraphDataPoint graphDataPoint = new GraphDataPoint();
+                if (realm.where(GraphDataPoint.class).findAll().isEmpty()){
+                    graphDataPoint.setId(0);
+                }else{
+                    graphDataPoint.setId(realm.where(GraphDataPoint.class).findAll().size()+1);
+                }
+                graphDataPoint.setmDataPoint(dataPointString);
+                graphDataPoint.setmDate(mDate);
+                realm.executeTransactionAsync(realm1 -> realm1.copyToRealm(graphDataPoint));
+                Util.log("Se manda "+dataPointString);
+                for (String number : dataPointString.split(",")){
+                    cordinates.add(Double.parseDouble(number));
+                }
+                DataPoint dataPoint = new DataPoint(cordinates.get(0),cordinates.get(1));
+                Main2Activity.series.appendData(dataPoint,true,40);
+                Main2Activity.series.setAnimated(true);
+                if (Main2Activity.series.getTitle().equals(mDate)){
+                }else{
+                    Main2Activity.series.resetData(new DataPoint[0]);
+                    Main2Activity.series.setTitle(mDate);
+                }
+                mTvHour.setText(mHour+" hrs");
+                Realm realm2 = Realm.getDefaultInstance();
+                Registro registro = new Registro("0",mTempLevel,mDate,mHour);
+                realm2.beginTransaction();
+                realm2.copyToRealmOrUpdate(registro);
+                realm2.commitTransaction();
+                ((Main2Activity)getActivity()).materialDialog.dismiss();
+                long time_ms = Long.parseLong(updateTimems);
+                Util.log(DateFormat.getDateTimeInstance().format(new Date(time_ms)));
             }else{
 
          }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Date date = new Date(Long.parseLong(updateTimems));
-        Calendar calendar = toCalendar(date);
-        mDate = calendar.get(Calendar.DAY_OF_MONTH)+" "+getMonthInString(calendar.get(Calendar.MONTH))+" "+calendar.get(Calendar.YEAR);
-        mHour = calendar.get(Calendar.HOUR_OF_DAY)+" : "+calendar.get(Calendar.MINUTE);
-        mTvdate.setText(mDate);
-        mTvHour.setText(mHour+" hrs");
-        ((Main2Activity)getActivity()).materialDialog.dismiss();
-        long time_ms = Long.parseLong(updateTimems);
-        Util.log(DateFormat.getDateTimeInstance().format(new Date(time_ms)));
+
     }
 
     private void sendNotification() {
@@ -244,7 +283,7 @@ public class TemperatureFragment extends Fragment {
         return cal;
     }
 
-    public String getMonthInString(int month){
+    public static String getMonthInString(int month){
         switch (month){
             case 0:
                 return "Enero";
