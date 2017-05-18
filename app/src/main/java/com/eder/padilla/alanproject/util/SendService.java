@@ -162,7 +162,6 @@ public class SendService  extends Service {
                     mTempLevel=String.valueOf(mTemperature).substring(0,4)+"ºC";
                 }
                 sendNotification();
-
             }
             String hourWithOutSpaces = mHour.trim().replace(" ","");
             String xAxisSeries = hourWithOutSpaces.replace(":",".");
@@ -180,7 +179,6 @@ public class SendService  extends Service {
         }else{
 
         }
-
         Realm.init(this);
         Realm realm = Realm.getDefaultInstance();
         Registro registro = new Registro("0",mTempLevel,mDate,mHour);
@@ -192,18 +190,6 @@ public class SendService  extends Service {
     }
     private void sendNotification(){
         Util.log("Entra a la notificacion y el contador es "+counter);
-        //NotificationManager nm = (NotificationManager)SendService.this.getSystemService(NOTIFICATION_SERVICE);
-        //Notification.Builder builder = new Notification.Builder(SendService.this);
-        //Intent notificationIntent = new Intent(getApplicationContext(), Main2Activity.class);
-        //PendingIntent contentIntent = PendingIntent.getActivity(this, 0,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        //builder.setContentIntent(contentIntent);
-        //builder.setSmallIcon(R.mipmap.firewall);
-        //builder.setContentText(getString(R.string.high_temperature_levels));
-        //builder.setContentTitle(getString(R.string.atention)+" "+mTempLevel);
-        //builder.setAutoCancel(true);
-        //builder.setDefaults(Notification.DEFAULT_ALL);
-        //Notification notification = builder.build();
-        //nm.notify((int)System.currentTimeMillis(),notification);
         Intent intent = new Intent(this, Main2Activity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
