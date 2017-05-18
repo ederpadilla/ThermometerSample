@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.eder.padilla.alanproject.R;
+import com.eder.padilla.alanproject.model.GraphDataPoint;
 import com.eder.padilla.alanproject.model.Registro;
 import com.eder.padilla.alanproject.ui.main.Main2Activity;
 
@@ -148,7 +149,6 @@ public class SendService  extends Service {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Util.log("el contador es "+counter+" el valor de temperature " +mTemperature);
         if (counter!=mTemperature){
             counter=mTemperature;
             if (counter>=Constants.MAXIMUM_TEMPERATURE || mTemperature<=Constants.MINIMUM_TEMPERATURE){
@@ -164,6 +164,19 @@ public class SendService  extends Service {
                 sendNotification();
 
             }
+            String hourWithOutSpaces = mHour.trim().replace(" ","");
+            String xAxisSeries = hourWithOutSpaces.replace(":",".");
+            String dataPointString = xAxisSeries+","+mTemperature;
+            Realm realm = Realm.getDefaultInstance();
+            GraphDataPoint graphDataPoint = new GraphDataPoint();
+            if (realm.where(GraphDataPoint.class).findAll().isEmpty()){
+                graphDataPoint.setId(0);
+            }else{
+                graphDataPoint.setId(realm.where(GraphDataPoint.class).findAll().size()+1);
+            }
+            graphDataPoint.setmDataPoint(dataPointString);
+            graphDataPoint.setmDate(mDate);
+            realm.executeTransactionAsync(realm1 -> realm1.copyToRealm(graphDataPoint));
         }else{
 
         }
