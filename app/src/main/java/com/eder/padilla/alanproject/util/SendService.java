@@ -176,17 +176,13 @@ public class SendService  extends Service {
             graphDataPoint.setmDataPoint(dataPointString);
             graphDataPoint.setmDate(mDate);
             realm.executeTransactionAsync(realm1 -> realm1.copyToRealm(graphDataPoint));
-        }else{
-
+            Realm realm2 = Realm.getDefaultInstance();
+            Registro registro = new Registro("0",mTempLevel,mDate,mHour);
+            realm2.beginTransaction();
+            realm2.copyToRealmOrUpdate(registro);
+            realm2.commitTransaction();
         }
-        Realm.init(this);
-        Realm realm = Realm.getDefaultInstance();
-        Registro registro = new Registro("0",mTempLevel,mDate,mHour);
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(registro);
-        realm.commitTransaction();
-        long time_ms = Long.parseLong(updateTimems);
-        Util.log(DateFormat.getDateTimeInstance().format(new Date(time_ms)));
+
     }
     private void sendNotification(){
         Util.log("Entra a la notificacion y el contador es "+counter);
