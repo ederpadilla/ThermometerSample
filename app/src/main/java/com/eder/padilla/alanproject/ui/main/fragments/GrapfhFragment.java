@@ -94,14 +94,6 @@ public class GrapfhFragment extends Fragment {
 
     }
 
-    @Override
-    public void onResume() {
-        //getDataPointsInRealm();
-        super.onResume();
-    }
-
-
-
     private  void showDialogPoint(Series series, DataPointInterface dataPoint) {
         new MaterialDialog.Builder(getActivity())
                 .title("Temperatura medida a las "+String.valueOf(dataPoint.getX()).replace(".",":")+" hrs")
