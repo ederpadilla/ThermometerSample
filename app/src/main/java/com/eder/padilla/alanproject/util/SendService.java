@@ -133,7 +133,11 @@ public class SendService  extends Service {
         Date date = new Date(Long.parseLong(updateTimems));
         Calendar calendar = toCalendar(date);
         mDate = calendar.get(Calendar.DAY_OF_MONTH)+" "+getMonthInString(calendar.get(Calendar.MONTH))+" "+calendar.get(Calendar.YEAR);
-        mHour = calendar.get(Calendar.HOUR_OF_DAY)+" : "+calendar.get(Calendar.MINUTE)+" hrs";
+        if (calendar.get(Calendar.MINUTE)>=10){
+            mHour= calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE);
+        }else{
+            mHour= calendar.get(Calendar.HOUR_OF_DAY)+":"+"0"+calendar.get(Calendar.MINUTE);
+        }
         try {
             JSONObject jsonObj = new JSONObject(status);
             mTemperature = (Double) jsonObj.get("temp");

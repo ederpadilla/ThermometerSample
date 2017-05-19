@@ -207,7 +207,11 @@ public class TemperatureFragment extends Fragment {
                 Date date = new Date(Long.parseLong(updateTimems));
                 Calendar calendar = toCalendar(date);
                 mDate = calendar.get(Calendar.DAY_OF_MONTH)+" "+getMonthInString(calendar.get(Calendar.MONTH))+" "+calendar.get(Calendar.YEAR);
-                mHour = calendar.get(Calendar.HOUR_OF_DAY)+" : "+calendar.get(Calendar.MINUTE);
+                if (calendar.get(Calendar.MINUTE)>=10){
+                    mHour= calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE);
+                }else{
+                    mHour= calendar.get(Calendar.HOUR_OF_DAY)+":"+"0"+calendar.get(Calendar.MINUTE);
+                }
                 mTvdate.setText(mDate);
                 Main2Activity.series.setTitle(mDate);
                 String hourWithOutSpaces = mHour.trim().replace(" ","");
@@ -222,6 +226,7 @@ public class TemperatureFragment extends Fragment {
                 }
                 graphDataPoint.setmDataPoint(dataPointString);
                 graphDataPoint.setmDate(mDate);
+                graphDataPoint.setmHour(mHour);
                 realm.executeTransactionAsync(realm1 -> realm1.copyToRealm(graphDataPoint));
                 Util.log("Se manda "+dataPointString);
                 for (String number : dataPointString.split(",")){

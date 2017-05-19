@@ -85,6 +85,7 @@ public class GrapfhFragment extends Fragment {
                             }
                         }
                         DataPoint dataPoint = new DataPoint(doubleList.get(0),doubleList.get(1));
+                        Util.log("data point "+dataPoint.toString());
                         Main2Activity.series.appendData(dataPoint,true,40);
                         Main2Activity.series.setAnimated(true);
                     }

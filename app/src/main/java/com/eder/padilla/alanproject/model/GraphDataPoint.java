@@ -16,13 +16,16 @@ public class GraphDataPoint extends RealmObject {
 
     String mDate;
 
+    String mHour;
+
     public GraphDataPoint() {
     }
 
-    public GraphDataPoint(int id, String mDataPoint, String mDate) {
+    public GraphDataPoint(int id, String mDataPoint, String mDate, String mHour) {
         this.id = id;
         this.mDataPoint = mDataPoint;
         this.mDate = mDate;
+        this.mHour = mHour;
     }
 
     public int getId() {
@@ -49,12 +52,21 @@ public class GraphDataPoint extends RealmObject {
         this.mDate = mDate;
     }
 
+    public String getmHour() {
+        return mHour;
+    }
+
+    public void setmHour(String mHour) {
+        this.mHour = mHour;
+    }
+
     @Override
     public String toString() {
         return "GraphDataPoint{" +
                 "id=" + id +
                 ", mDataPoint='" + mDataPoint + '\'' +
                 ", mDate='" + mDate + '\'' +
+                ", mHour='" + mHour + '\'' +
                 '}';
     }
 }
