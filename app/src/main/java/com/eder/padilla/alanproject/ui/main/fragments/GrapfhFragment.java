@@ -74,17 +74,16 @@ public class GrapfhFragment extends Fragment {
             RealmResults<GraphDataPoint> graphDataPoints = realm.where(GraphDataPoint.class).findAll();
             Util.log("Se tiene en realm "+graphDataPoints.toString());
             if (notEmpty(graphDataPoints)){
-                Util.log("entra a 1");
                 for (GraphDataPoint graphDataPoint : graphDataPoints){
-                    Util.log("entra a 2");
                     if (graphDataPoint.getmDate().equals(date)){
-                        Util.log("entra a 3");
                         doubleList.clear();
                         for (String number : graphDataPoint.getmDataPoint().split(",")){
-                            doubleList.add(Double.parseDouble(number));
-                            Util.log("entra a 4");
+                            if (number.contains("hrs")){
+                                doubleList.add(Double.parseDouble(number.replace("hrs","").trim()));
+                            }else{
+                                doubleList.add(Double.parseDouble(number.trim()));
+                            }
                         }
-                        Util.log("entra a 5");
                         DataPoint dataPoint = new DataPoint(doubleList.get(0),doubleList.get(1));
                         Main2Activity.series.appendData(dataPoint,true,40);
                         Main2Activity.series.setAnimated(true);
